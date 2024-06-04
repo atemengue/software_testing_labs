@@ -53,6 +53,7 @@ export function isEqual(a, b) {
   return a === b;
 }
 
+
 //The some() method uses the function for its evaluation and it executes the 
 //function once for each element present in the array. 
 //If it finds the object/element in the array 

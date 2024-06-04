@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { calculateAverage, factorial, fizzBuzz, max } from '../intro';
+import { calculateAverage, divide, factorial, fizzBuzz, max } from '../intro';
 
 describe('max', () => {
   it('should return the first argument if it is greater', () => {
@@ -76,3 +76,15 @@ describe('factorial', () => {
     expect(factorial(-1)).toBeUndefined();
   });
 });
+
+describe("divide", () => {
+  it("Should return 3 if a = 9  and b = 3", () => {
+    expect(divide(9, 3)).toBe(3)
+  });
+  it("Should Throw and error if b = 0", () => {
+    // Theow and Error
+    expect(() => divide(9, 0)).toThrow(/zéro/i);
+  });
+  // expect(() => stack.peek()).toThrow(/empty/i);
+
+})
