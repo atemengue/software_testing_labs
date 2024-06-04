@@ -7,7 +7,7 @@ import { getShippingQuote } from './libs/shipping';
 
 // Lesson: Mocking modules
 export function getPriceInCurrency(price, currency) {
-  const rate = getExchangeRate('USD', currency);
+  const rate = getExchangeRate('FCFA', currency);
   return price * rate;
 }
 

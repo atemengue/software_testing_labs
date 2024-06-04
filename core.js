@@ -40,7 +40,6 @@ export function isValidUsername(username) {
   return username.length >= minLength && username.length <= maxLength;
 }
 
-
 // Lesson: Testing asynchronous code
 export function fetchData() {
   return new Promise((resolve) => {
