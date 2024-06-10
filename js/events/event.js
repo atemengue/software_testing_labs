@@ -42,5 +42,5 @@ export function createEvent(name, price, availableTickets) {
         throw new InvalidEventPriceError("Event tickets must be more than 0");
     }
 
-    return new Event(null, name, price, availableTickets);
+    return new Event(null, name, price, availableTickets, availableTickets, new Date());
 }
