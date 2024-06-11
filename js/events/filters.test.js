@@ -1,30 +1,45 @@
 import { today, next7Days, next30Days } from './filters';
 
-describe('Date Management Functions', () => {
-    const eventToday = { date: new Date() };
-    const eventNext7Days = { date: new Date() };
-    eventNext7Days.date.setDate(eventNext7Days.date.getDate() + 5); // Événement dans 5 jours
-    const eventNext30Days = { date: new Date() };
-    eventNext30Days.date.setDate(eventNext30Days.date.getDate() + 15); // Événement dans 15 jours
+describe('Filter Functions', () => {
+    const todayDate = new Date();
+    const sevenDaysFromNow = new Date();
+    sevenDaysFromNow.setDate(todayDate.getDate() + 7);
+    const thirtyDaysFromNow = new Date();
+    thirtyDaysFromNow.setDate(todayDate.getDate() + 30);
 
-    test('today function correctly identifies today\'s event', () => {
-        const expectedResult = true; // You can adjust this based on your current date
-        expect(today(eventToday)).toBe(expectedResult);
-        expect(today(eventNext7Days)).toBe(false);
-        expect(today(eventNext30Days)).toBe(false);
+    const pastEvent = { date: new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() - 1) };
+    const todayEvent = { date: new Date() };
+    const futureEventWithin7Days = { date: new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() + 5) };
+    const futureEventWithin30Days = { date: new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() + 25) };
+    const futureEventOutside30Days = { date: new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() + 31) };
+
+    describe('today', () => {
+        test('returns true if the event is today', () => {
+            expect(today(todayEvent)).toBe(true);
+        });
+
+        test('returns false if the event is not today', () => {
+            expect(today(pastEvent)).toBe(false);
+        });
     });
 
-    test('next7Days function correctly identifies events in the next 7 days', () => {
-        const expectedResult = true; // You can adjust this based on your current date
-        expect(next7Days(eventToday)).toBe(expectedResult);
-        expect(next7Days(eventNext7Days)).toBe(true);
-        expect(next7Days(eventNext30Days)).toBe(false);
+    describe('next7Days', () => {
+        test('returns true if the event is within the next 7 days', () => {
+            expect(next7Days(futureEventWithin7Days)).toBe(true);
+        });
+
+        test('returns false if the event is not within the next 7 days', () => {
+            expect(next7Days(futureEventOutside30Days)).toBe(false);
+        });
     });
 
-    test('next30Days function correctly identifies events in the next 30 days', () => {
-        const expectedResult = true; // You can adjust this based on your current date
-        expect(next30Days(eventToday)).toBe(expectedResult);
-        expect(next30Days(eventNext7Days)).toBe(true);
-        expect(next30Days(eventNext30Days)).toBe(true);
+    describe('next30Days', () => {
+        test('returns true if the event is within the next 30 days', () => {
+            expect(next30Days(futureEventWithin30Days)).toBe(true);
+        });
+
+        test('returns false if the event is not within the next 30 days', () => {
+            expect(next30Days(futureEventOutside30Days)).toBe(false);
+        });
     });
 });

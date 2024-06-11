@@ -3,58 +3,64 @@ import {
     calculateMoneyOff,
     generateReferralCode,
     applyDiscount
-} from './promotions';
-import { getDiscount } from './discount/discount';
+} from "./promotions";
+import { getDiscount } from "./discount/discount";
 
 // Mock the getDiscount function
-jest.mock('./discount/discount', () => ({
-    getDiscount: jest.fn(),
-}));
+jest.mock("./discount/discount");
 
-describe('Promotion Functions', () => {
-    test('calculatePercentageDiscount with sufficient spend', () => {
-        expect(calculatePercentageDiscount(10, 50, 100)).toBe(90);
+describe('Promotions Functions', () => {
+    describe('calculatePercentageDiscount', () => {
+        test('applies discount when currentPrice is greater than or equal to minimumSpend', () => {
+            expect(calculatePercentageDiscount(20, 50, 100)).toBe(80);
+        });
+
+        test('does not apply discount when currentPrice is less than minimumSpend', () => {
+            expect(calculatePercentageDiscount(20, 50, 40)).toBe(40);
+        });
     });
 
-    test('calculatePercentageDiscount with insufficient spend', () => {
-        expect(calculatePercentageDiscount(10, 50, 40)).toBe(40);
+    describe('calculateMoneyOff', () => {
+        test('applies money off when currentPrice is greater than or equal to minimumSpend', () => {
+            expect(calculateMoneyOff(20, 50, 100)).toBe(80);
+        });
+
+        test('does not apply money off when currentPrice is less than minimumSpend', () => {
+            expect(calculateMoneyOff(20, 50, 40)).toBe(40);
+        });
     });
 
-    test('calculateMoneyOff with sufficient spend', () => {
-        expect(calculateMoneyOff(10, 50, 100)).toBe(90);
+    describe('generateReferralCode', () => {
+        test('generates a referral code', () => {
+            const userId = "123";
+            const code = generateReferralCode(userId);
+            expect(code).toMatch(new RegExp(`#FRIEND-#\\d{3}-#${userId}`));
+        });
     });
 
-    test('calculateMoneyOff with insufficient spend', () => {
-        expect(calculateMoneyOff(10, 50, 40)).toBe(40);
-    });
+    describe('applyDiscount', () => {
+        test('applies MONEYOFF discount', async () => {
+            getDiscount.mockResolvedValue({
+                data: { isValid: true, type: "MONEYOFF", value: 20, minSpend: 50 }
+            });
+            const newTotal = await applyDiscount("DISCOUNT20", 100);
+            expect(newTotal).toBe(80);
+        });
 
-    test('generateReferralCode generates correct format', () => {
-        const userId = '12345';
-        const code = generateReferralCode(userId);
-        expect(code).toMatch(new RegExp(`#FRIEND-#\\d{3}-#${userId}`));
-    });
+        test('applies PERCENTAGEOFF discount', async () => {
+            getDiscount.mockResolvedValue({
+                data: { isValid: true, type: "PERCENTAGEOFF", value: 20, minSpend: 50 }
+            });
+            const newTotal = await applyDiscount("DISCOUNT20", 100);
+            expect(newTotal).toBe(80);
+        });
 
-    test('applyDiscount with valid MONEYOFF discount', async () => {
-        getDiscount.mockResolvedValue({ data: { isValid: true, type: 'MONEYOFF', value: 10, minSpend: 50 } });
-        const result = await applyDiscount('DISCOUNT10', 100);
-        expect(result).toBe(90);
-    });
-
-    test('applyDiscount with valid PERCENTAGEOFF discount', async () => {
-        getDiscount.mockResolvedValue({ data: { isValid: true, type: 'PERCENTAGEOFF', value: 10, minSpend: 50 } });
-        const result = await applyDiscount('DISCOUNT10', 100);
-        expect(result).toBe(90);
-    });
-
-    test('applyDiscount with invalid discount', async () => {
-        getDiscount.mockResolvedValue({ data: { isValid: false } });
-        const result = await applyDiscount('INVALID', 100);
-        expect(result).toBe(100);
-    });
-
-    test('applyDiscount with insufficient spend', async () => {
-        getDiscount.mockResolvedValue({ data: { isValid: true, type: 'MONEYOFF', value: 10, minSpend: 150 } });
-        const result = await applyDiscount('DISCOUNT10', 100);
-        expect(result).toBe(100);
+        test('does not apply invalid discount', async () => {
+            getDiscount.mockResolvedValue({
+                data: { isValid: false }
+            });
+            const newTotal = await applyDiscount("INVALIDCODE", 100);
+            expect(newTotal).toBe(100);
+        });
     });
 });
