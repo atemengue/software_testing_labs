@@ -30,17 +30,17 @@ export function getTagLine(event, minimumTicketCount, isPopular) {
 }
 
 export function createEvent(name, price, availableTickets) {
-    if (typeof name !== "string" || name.length > 200) {
-        throw new InvalidEventNameError("Event name cannot exceed 200 characters");
+    if (typeof name !== "string" || name.length === 0 || name.length > 200) {
+        throw new InvalidEventNameError("Event name must be a non-empty string and cannot exceed 200 characters");
     }
 
     if (typeof price !== "number" || price < 0) {
-        throw new InvalidEventPriceError("Event price must be more or equal to 0");
+        throw new InvalidEventPriceError("Event price must be a non-negative number");
     }
 
-    if (typeof availableTickets !== "number" || availableTickets < 1) {
-        throw new InvalidEventPriceError("Event tickets must be more than 0");
+    if (typeof availableTickets !== "number" || availableTickets <= 0) {
+        throw new InvalidEventPriceError("Number of available tickets must be a positive number");
     }
 
-    return new Event(null, name, price, availableTickets);
+    return new Event(null, name, price, availableTickets, availableTickets, new Date());
 }

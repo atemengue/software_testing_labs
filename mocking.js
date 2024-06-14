@@ -3,10 +3,11 @@ import { getExchangeRate } from './libs/currency';
 import { isValidEmail, sendEmail } from './libs/email';
 import { charge } from './libs/payment';
 import security from './libs/security';
+import { getShippingQuote } from './libs/shipping';
 
 // Lesson: Mocking modules
 export function getPriceInCurrency(price, currency) {
-  const rate = getExchangeRate('FCFA', currency);
+  const rate = getExchangeRate('USD', currency);
   return price * rate;
 }
 
@@ -39,6 +40,7 @@ export async function signUp(email) {
 // Lesson: Spying on functions
 export async function login(email) {
   const code = security.generateCode();
+
   await sendEmail(email, code.toString());
 }
 

@@ -2,11 +2,6 @@ import { today, next7Days, next30Days } from './filters';
 
 describe('Filter Functions', () => {
     const todayDate = new Date();
-    const sevenDaysFromNow = new Date();
-    sevenDaysFromNow.setDate(todayDate.getDate() + 7);
-    const thirtyDaysFromNow = new Date();
-    thirtyDaysFromNow.setDate(todayDate.getDate() + 30);
-
     const pastEvent = { date: new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() - 1) };
     const todayEvent = { date: new Date() };
     const futureEventWithin7Days = { date: new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() + 5) };

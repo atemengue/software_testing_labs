@@ -7,18 +7,8 @@ import {
     showAdverts
 } from "./basket";
 
+import {MockBasketItem} from "./mock.basket.item"
 
-// Mock BasketItem for testing purposes
-class MockBasketItem {
-    constructor(event, requiredTickets) {
-        this.event = event;
-        this.requiredTickets = requiredTickets;
-    }
-
-    getPrice() {
-        return this.event.price * this.requiredTickets;
-    }
-}
 
 describe('Basket Functions', () => {
     const event1 = { id: 1, name: "Concert", price: 100 };
@@ -101,7 +91,7 @@ describe('Basket Functions', () => {
     describe('serializeBasketItemsToJson', () => {
         test('serializes basket items to JSON correctly', () => {
             const items = [new MockBasketItem(event1, 2)];
-            expect(serializeBasketItemsToJson(items)).toEqual([{ event: event1, requiredTickets: 2 }]);
+            expect(serializeBasketItemsToJson(items)).toEqual([{ event: event1, ticketCount: 2 }]);
         });
     });
 });

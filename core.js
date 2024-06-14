@@ -40,6 +40,7 @@ export function isValidUsername(username) {
   return username.length >= minLength && username.length <= maxLength;
 }
 
+
 // Lesson: Testing asynchronous code
 export function fetchData() {
   return new Promise((resolve) => {
@@ -48,11 +49,6 @@ export function fetchData() {
       resolve(data);
     });
   });
-}
-
-// Lesson: Testing Promise with Error
-export function fetchErrorData() {
-  return Promise.reject({ reason: 'Operation failed' })
 }
 
 // Lesson: Setup and teardown

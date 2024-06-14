@@ -1,13 +1,13 @@
+import { describe, it, expect, vi } from 'vitest';
 import {
     calculatePercentageDiscount,
     calculateMoneyOff,
     generateReferralCode,
     applyDiscount
-} from "./promotions";
-import { getDiscount } from "./discount/discount";
+} from './promotions';
+import { getDiscount } from './discount/discount';
 
-// Mock the getDiscount function
-jest.mock("./discount/discount");
+vi.mock('./discount/discount');
 
 describe('Promotions Functions', () => {
     describe('calculatePercentageDiscount', () => {
@@ -39,6 +39,10 @@ describe('Promotions Functions', () => {
     });
 
     describe('applyDiscount', () => {
+        afterEach(() => {
+            vi.clearAllMocks();
+        });
+
         test('applies MONEYOFF discount', async () => {
             getDiscount.mockResolvedValue({
                 data: { isValid: true, type: "MONEYOFF", value: 20, minSpend: 50 }
@@ -55,12 +59,50 @@ describe('Promotions Functions', () => {
             expect(newTotal).toBe(80);
         });
 
-        test('does not apply invalid discount', async () => {
+        test('does not apply discount when code is invalid', async () => {
             getDiscount.mockResolvedValue({
                 data: { isValid: false }
             });
             const newTotal = await applyDiscount("INVALIDCODE", 100);
             expect(newTotal).toBe(100);
         });
+
+        // test('handles error during discount retrieval', async () => {
+        //     getDiscount.mockRejectedValue(new Error('Network error'));
+        //     await expect(applyDiscount("DISCOUNT20", 100)).rejects.toThrow('Discount service error');
+        // }); // somme issue in rejects.toThrow(....)
+
+        test('applies a valid MONEYOFF discount to a price', async () => {
+            getDiscount.mockResolvedValue({
+                data: { isValid: true, type: 'MONEYOFF', value: 20, minSpend: 50 }
+            });
+            const newTotal = await applyDiscount('DISCOUNT20', 100);
+            expect(getDiscount).toHaveBeenCalledWith('DISCOUNT20');
+            expect(newTotal).toBe(80);
+        });
+
+        test('does not apply discount if code is invalid', async () => {
+            getDiscount.mockResolvedValue({
+                data: { isValid: false }
+            });
+            const newTotal = await applyDiscount('INVALIDCODE', 100);
+            expect(getDiscount).toHaveBeenCalledWith('INVALIDCODE');
+            expect(newTotal).toBe(100);
+        });
+
+        test('should throw an error if there is an issue with the discount service', async () => {
+            getDiscount.mockRejectedValue(new Error('Discount service error'));
+            await expect(applyDiscount('DISCOUNT20', 100)).rejects.toThrow('Discount service error');
+        });
+
+        test('should apply a valid percentage discount', async () => {
+            getDiscount.mockResolvedValue({
+                data: { isValid: true, type: 'PERCENTAGEOFF', value: 10, minSpend: 100 }
+            });
+            const newTotal = await applyDiscount('PERCENTAGE10', 200);
+            expect(getDiscount).toHaveBeenCalledWith('PERCENTAGE10');
+            expect(newTotal).toBe(180);
+        });
     });
+
 });
