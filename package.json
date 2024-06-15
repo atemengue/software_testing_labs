@@ -3,13 +3,19 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "start": "node ./bin/www",
-    "test": "vitest"
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "axios": "^1.6.8",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "delay": "^6.0.0",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
@@ -17,6 +23,11 @@
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^1.6.0",
+<<<<<<< HEAD
+=======
+    "@vitest/ui": "^1.6.0",
+    "jsdom": "^24.0.0",
+>>>>>>> 7e77614c2eb2e07c979905c645ceb1ef9ed4e469
     "vitest": "^1.6.0"
   }
 }
