@@ -1,10 +1,16 @@
 
 // Lesson: Writing your first tests
-export function max(a, b) {
-  if (a > b) return a;
-  else if (b > a) return b;
-  return a;
+// export function max(a, b) {
+//   if (a > b) return a;
+//   else if (b > a) return b;
+//   return a;
+// }
+// refactorized max function
+export function max(a,b){
+  return (a >= b)?  a : b;
+  
 }
+
 
 // Fonction FizzBuzz
 export function fizzBuzz(n) {
