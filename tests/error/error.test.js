@@ -5,7 +5,7 @@ import {
     InvalidReferralCodeError,
     InvalidUsernameError,
     UserHasAccountError
-} from '../../js/error-handling/exceptions'; 
+} from '../../js/error-handling/exceptions';     
 
 describe('Custom Error Classes', () => {
     it('should create an instance of InvalidEventNameError', () => {
