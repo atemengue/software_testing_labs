@@ -22,7 +22,7 @@ export function calculateTotal(basketItems, discount = null) {
     return total;
 }
 
-export function showAdverts(user) {
+export function showAdverts(user) { 
     if (user.isPremium) {
         return false
     }
@@ -30,15 +30,24 @@ export function showAdverts(user) {
 }
 
 export function searchBasket(basketItems, searchQuery) {
+    // Vérifie si searchQuery est défini et non vide
+    if (!searchQuery) {
+        return [];
+    }
+
     const query = searchQuery.toLowerCase().toString();
     const items = [];
+
     for (const basketItem of basketItems) {
-        if (basketItem.event.name.toLowerCase().includes(query)) {
+        // Vérifie si basketItem.event.name est défini
+        if (basketItem.event && basketItem.event.name && basketItem.event.name.toLowerCase().includes(query)) {
             items.push(basketItem);
         }
     }
+
     return items;
 }
+
 
 export function getBasketItem(basketItems, event) {
     for (const basketItem of basketItems) {

@@ -1,4 +1,4 @@
-class BasketItem {
+class BasketItem { 
 
   constructor(event, ticketCount) {
     this.event = event;
