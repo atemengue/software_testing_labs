@@ -1,10 +1,14 @@
 import { getDiscount } from "./discount/discount";
 
 export function calculatePercentageDiscount(percentage, minimumSpend, currentPrice) {
+    if (percentage > 100) {
+    return "error of value ";
+  }
     if (currentPrice >= minimumSpend) {
         const discount = 100 - percentage;
         return currentPrice * (discount / 100);
     }
+    
     return currentPrice;
 }
 
