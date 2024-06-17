@@ -1,0 +1,25 @@
+Plan de test pour le module Search.js :
+
+1. Cas de test 1 : Vérifier que la fonction retourne tous les événements correspondant au prédicat de recherche
+   1.1. Créer un tableau d'événements de test
+   1.2. Définir un prédicat de recherche pour les événements en juin 2024
+   1.3. Appeler la fonction `getEvents` avec le tableau d'événements et le prédicat de recherche
+   1.4. Vérifier que la fonction retourne les événements attendus en juin 2024
+
+2. Cas de test 2 : Vérifier que la fonction retourne un tableau vide si aucun événement ne correspond au prédicat de recherche
+   2.1. Créer un tableau d'événements de test
+   2.2. Définir un prédicat de recherche pour les événements en décembre 2024
+   2.3. Appeler la fonction `getEvents` avec le tableau d'événements et le prédicat de recherche
+   2.4. Vérifier que la fonction retourne un tableau vide
+
+3. Cas de test 3 : Vérifier que la fonction retourne tous les événements si le prédicat de recherche est toujours vrai
+   3.1. Créer un tableau d'événements de test
+   3.2. Définir un prédicat de recherche qui retourne toujours vrai
+   3.3. Appeler la fonction `getEvents` avec le tableau d'événements et le prédicat de recherche
+   3.4. Vérifier que la fonction retourne tous les événements
+
+4. Cas de test 4 : Vérifier que la fonction retourne un tableau vide si le prédicat de recherche est toujours faux
+   4.1. Créer un tableau d'événements de test
+   4.2. Définir un prédicat de recherche qui retourne toujours faux
+   4.3. Appeler la fonction `getEvents` avec le tableau d'événements et le prédicat de recherche
+   4.4. Vérifier que la fonction retourne un tableau vide

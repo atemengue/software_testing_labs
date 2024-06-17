@@ -1,0 +1,34 @@
+Plan de Test pour les Classes d'Erreur
+Objectif
+Vérifier que chaque classe d'erreur est correctement instanciée avec le message d'erreur approprié et qu'elle hérite de la classe Error.
+
+1. Classe InvalidEventNameError
+Cas de Test:
+
+Cas de test 1.1: Instancier InvalidEventNameError avec un message d'erreur.
+Entrée: error = 'Invalid event name'
+Sortie attendue: L'instance doit avoir error.message égal à 'Invalid event name' et être une instance de Error.
+2. Classe InvalidEventPriceError
+Cas de Test:
+
+Cas de test 2.1: Instancier InvalidEventPriceError avec un message d'erreur.
+Entrée: error = 'Invalid event price'
+Sortie attendue: L'instance doit avoir error.message égal à 'Invalid event price' et être une instance de Error.
+3. Classe InvalidUsernameError
+Cas de Test:
+
+Cas de test 3.1: Instancier InvalidUsernameError avec un message d'erreur.
+Entrée: error = 'Invalid username'
+Sortie attendue: L'instance doit avoir error.message égal à 'Invalid username' et être une instance de Error.
+4. Classe InvalidReferralCodeError
+Cas de Test:
+
+Cas de test 4.1: Instancier InvalidReferralCodeError avec un message d'erreur.
+Entrée: error = 'Invalid referral code'
+Sortie attendue: L'instance doit avoir error.message égal à 'Invalid referral code' et être une instance de Error.
+5. Classe UserHasAccountError
+Cas de Test:
+
+Cas de test 5.1: Instancier UserHasAccountError avec un message d'erreur.
+Entrée: error = 'User already has an account'
+Sortie attendue: L'instance doit avoir error.message égal à 'User already has an account' et être une instance de Error.

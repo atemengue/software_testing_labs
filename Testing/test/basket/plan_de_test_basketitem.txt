@@ -1,0 +1,29 @@
+Plan de Test pour la Classe BasketItem
+Objectif
+Vérifier que la classe BasketItem fonctionne correctement, en particulier son constructeur et sa méthode getPrice.
+
+1. Constructeur
+Objectif: Vérifier que le constructeur initialise correctement les propriétés event et ticketCount.
+
+Cas de Test:
+
+Cas de test 1.1: Initialiser un BasketItem avec un événement et un nombre de tickets.
+Entrée: event = { ticketPrice: 50 }, ticketCount = 2
+Sortie attendue: BasketItem.event doit être égal à l'objet event fourni et BasketItem.ticketCount doit être égal à 2.
+2. Méthode getPrice
+Objectif: Vérifier que la méthode getPrice retourne correctement le prix total des tickets en multipliant le prix du ticket par le nombre de tickets.
+
+Cas de Test:
+
+Cas de test 2.1: Calculer le prix pour un BasketItem avec un événement et un nombre de tickets donné.
+
+Entrée: event = { ticketPrice: 50 }, ticketCount = 2
+Sortie attendue: BasketItem.getPrice() doit retourner 100.
+Cas de test 2.2: Calculer le prix pour un BasketItem avec ticketCount = 0.
+
+Entrée: event = { ticketPrice: 50 }, ticketCount = 0
+Sortie attendue: BasketItem.getPrice() doit retourner 0.
+Cas de test 2.3: Calculer le prix pour un BasketItem avec un prix de ticket égal à 0.
+
+Entrée: event = { ticketPrice: 0 }, ticketCount = 5
+Sortie attendue: BasketItem.getPrice() doit retourner 0.

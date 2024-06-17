@@ -1,0 +1,46 @@
+Plan de Test pour le Module basket.js
+1. Fonction calculateTotal
+Objectif: Vérifier que la fonction calcule correctement le total des prix des articles dans le panier, avec et sans réduction.
+
+Cas de Test:
+
+Cas de test 1.1: Panier vide (devrait retourner 0).
+Cas de test 1.2: Panier avec un seul article (devrait retourner le prix de cet article).
+Cas de test 1.3: Panier avec plusieurs articles (devrait retourner la somme des prix de tous les articles).
+Cas de test 1.4: Panier avec réduction (devrait retourner le total moins la réduction).
+2. Fonction showAdverts
+Objectif: Vérifier que la fonction retourne correctement si les publicités doivent être affichées en fonction du statut de l'utilisateur.
+
+Cas de Test:
+
+Cas de test 2.1: Utilisateur premium (devrait retourner false).
+Cas de test 2.2: Utilisateur non premium (devrait retourner true).
+3. Fonction searchBasket
+Objectif: Vérifier que la fonction retourne correctement les articles du panier qui correspondent à la requête de recherche.
+
+Cas de Test:
+
+Cas de test 3.1: Requête correspondant à un article dans le panier (devrait retourner cet article).
+Cas de test 3.2: Requête ne correspondant à aucun article dans le panier (devrait retourner un tableau vide).
+Cas de test 3.3: Requête en majuscules ou minuscules (devrait être insensible à la casse).
+4. Fonction getBasketItem
+Objectif: Vérifier que la fonction retourne correctement un article spécifique dans le panier en fonction de l'événement.
+
+Cas de Test:
+
+Cas de test 4.1: Événement correspondant à un article dans le panier (devrait retourner cet article).
+Cas de test 4.2: Événement ne correspondant à aucun article dans le panier (devrait retourner null).
+5. Fonction createBasketItem
+Objectif: Vérifier que la fonction crée correctement un nouvel article dans le panier si celui-ci n'existe pas déjà.
+
+Cas de Test:
+
+Cas de test 5.1: Création d'un nouvel article (devrait retourner une instance de BasketItem).
+Cas de test 5.2: Création d'un article déjà existant (devrait retourner null).
+6. Fonction serializeBasketItemsToJson
+Objectif: Vérifier que la fonction sérialise correctement les articles du panier en JSON.
+
+Cas de Test:
+
+Cas de test 6.1: Panier contenant un ou plusieurs articles (devrait retourner une représentation JSON correcte de ces articles).
+Cas de test 6.2: Panier vide (devrait retourner un tableau vide).

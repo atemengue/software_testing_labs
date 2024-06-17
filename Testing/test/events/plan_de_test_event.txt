@@ -1,0 +1,20 @@
+Plan de Test pour le Module "event.js"
+
+Cas de test 1 : Tests pour la fonction isSoldOut
+
+Cas de test 1.1. Test lorsque tous les billets sont vendus
+Cas de test 1.2. Test lorsqu'il reste des billets disponibles
+
+Cas de test 2 : Tests pour la fonction getTagLine
+
+Cas de test 2.1. Test lorsque l'événement est complet (tous les billets vendus)
+Cas de test 2.2. Test lorsque les billets restants sont inférieurs au minimum requis
+Cas de test 2.3. Test lorsque l'événement est populaire
+Cas de test 2.4. Test du message par défaut lorsque l'événement n'est pas complet et n'est pas populaire
+
+Cas de test 3 : Tests pour la fonction createEvent
+
+Cas de test 3.1. Test de la création réussie d'un événement avec des valeurs valides
+Cas de test 3.2. Test pour un nom d'événement invalide (numérique, trop long)
+Cas de test 3.3. Test pour un prix de billet invalide (négatif, non numérique)
+Cas de test 3.4. Test pour un nombre de billets disponibles invalide (0, non numérique)

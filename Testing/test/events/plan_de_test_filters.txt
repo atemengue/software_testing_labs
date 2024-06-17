@@ -1,0 +1,18 @@
+Plan de Test pour le Module "filters.js"
+
+Cas de test 1 : Tests pour la fonction today
+
+Cas de test 1.1. Test lorsque l'événement est aujourd'hui
+Cas de test 1.2. Test lorsque l'événement n'est pas aujourd'hui
+
+Cas de test 2 : Tests pour la fonction next7Days
+
+Cas de test 2.1. Test lorsque l'événement est dans les 7 prochains jours
+Cas de test 2.2. Test lorsque l'événement n'est pas dans les 7 prochains jours
+Cas de test 2.3. Test lorsque l'événement est aujourd'hui
+
+Cas de test 3 : Tests pour la fonction next30Days
+
+Cas de test 3.1. Test lorsque l'événement est dans les 30 prochains jours
+Cas de test 3.2. Test lorsque l'événement n'est pas dans les 30 prochains jours
+Cas de test 3.3. Test lorsque l'événement est aujourd'hui
