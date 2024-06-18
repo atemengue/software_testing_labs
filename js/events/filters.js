@@ -12,7 +12,6 @@ export function next7Days(event) {
     future.setHours(23, 59, 0);
 
     const eventDate = event.date;
-
     return eventDate >= today && eventDate <= future;
 }
 

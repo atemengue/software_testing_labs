@@ -23,11 +23,7 @@
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^1.6.0",
-<<<<<<< HEAD
-=======
-    "@vitest/ui": "^1.6.0",
-    "jsdom": "^24.0.0",
->>>>>>> 7e77614c2eb2e07c979905c645ceb1ef9ed4e469
+    "jsdom": "^24.1.0",
     "vitest": "^1.6.0"
   }
 }
