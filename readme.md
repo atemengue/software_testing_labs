@@ -1,4 +1,4 @@
-# Application Mobile pour Restaurant Local
+# Application Mobile de restoration
 
 ## Description du Projet
 
