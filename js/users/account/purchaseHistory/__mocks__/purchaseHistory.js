@@ -1,5 +1,5 @@
 import { vi } from 'vitest';
-const purchaseHistory = vi.mock('../purchaseHistory');
+const purchaseHistory = vi.mock('../purchaseHistory'); 
 
 function __getPurchaseHistory() {
     const response = {
