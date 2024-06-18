@@ -1,12 +1,12 @@
 # README
 ----------			---------------
-		TEST PLAN
+		TEST PLAN 
 ----------			---------------
 ## Projet INFO352 SOFTWARE TESTING
 
 ### Introduction
 
-Ce projet ICT304 vise à développer une application mobile pour un restaurant local. L'application permet aux
+Ce projet  vise à développer une application mobile pour un restaurant local. L'application permet aux
 utilisateurs de créer un panier de produits et d'obtenir des promotions. Ce document décrit le plan de test de
 l'application, incluant les objectifs, la portée, l'approche, les ressources nécessaires et le calendrier des tests,
 afin d'assurer que toutes les fonctionnalités critiques de l'application sont correctement testées et que les exigences
