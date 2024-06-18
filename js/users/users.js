@@ -6,8 +6,8 @@ export class User {
     }
 }
 export async function userExists(username) {
-    const existingUsers = ["newuser1@pluralsight.com"]
-
+    // const existingUsers = ["newuser1@pluralsight.com"]
+    const existingUsers = ["newuser1@pluralsight.com", "test@plurals"]
     if (existingUsers.includes(username)) {
         return true;
     }
