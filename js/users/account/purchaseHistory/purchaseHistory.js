@@ -1,13 +1,15 @@
 import { Purchase } from '../account';
+import { BASE_URL } from './__mocks__/config';// Correction ajoutée
 
 export function getPurchaseHistory(userId) {
-    const url = new URL("/account/orders/history ", BASE_URL);
+    const url = new URL(`${BASE_URL}/account/orders/history`);// Correction ajoutée
     url.searchParams.append("userId", userId);
 
-    const request = new XMLHttpRequest()
-    request.open("GET", url.toString())
+    const request = new XMLHttpRequest();
+    request.open("GET", url.toString());
+    request.send();// Correction ajoutée
 
-    return request
+    return request;
 }
 
 export function parsePurchaseResponse(purchaseData) {
