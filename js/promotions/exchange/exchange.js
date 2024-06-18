@@ -6,7 +6,8 @@ export default async function getExchangeRate(currencyCode, callback) {
     const response = {
         "originalCurrency": "GBP",
         "newCurrency": currencyCode,
-        "exchangeRate": exchangeRate
+        "exchangeRate": exchangeRate,
+
     }
     callback(response);
 }

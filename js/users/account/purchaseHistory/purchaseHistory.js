@@ -1,23 +1,23 @@
 import { Purchase } from '../account';
 
-export function getPurchaseHistory(userId) {
-    const url = new URL("/account/orders/history ", BASE_URL);
-    url.searchParams.append("userId", userId);
+export async function getPurchaseHistory(userId) {
+  const BASE_URL = 'https://api.example.com';
+  const url = new URL("/account/orders/history", BASE_URL);
+  url.searchParams.append("userId", userId);
 
-    const request = new XMLHttpRequest()
-    request.open("GET", url.toString())
-
-    return request
+  const response = await fetch(url.toString());
+  const purchaseData = await response.json();
+  return parsePurchaseResponse(purchaseData);
 }
 
 export function parsePurchaseResponse(purchaseData) {
-    const purchases = [];
+  const purchases = [];
 
-    for (const purchase of purchaseData) {
-        purchases.push(
-            new Purchase(purchase.event, purchase.tickets, purchase.price)
-        );
-    }
+  for (const purchase of purchaseData) {
+    purchases.push(
+      new Purchase(purchase.event, purchase.tickets, purchase.price)
+    );
+  }
 
-    return purchases;
+  return purchases;
 }
