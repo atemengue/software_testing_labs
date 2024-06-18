@@ -41,5 +41,3 @@ export function divide(a, b) {
 export function isEqual(a, b) {
   return a === b;
 }
-
-

@@ -11,7 +11,7 @@ const exchangeRateProvider = {
                 break;
             case "EUR":
                 exchangeRate = 1.18;
-                break;
+               break;
             case "NZD":
                 exchangeRate = 1.93;
                 break;

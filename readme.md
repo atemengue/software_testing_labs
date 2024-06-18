@@ -8,7 +8,7 @@
 *** Thanks again! Now go create something AMAZING! :D
 -->
 
-
+<!-- npx vitest run --coverage ############# pour voir la couverture -->
 
 <!-- PROJECT SHIELDS -->
 <!--

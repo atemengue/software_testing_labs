@@ -26,7 +26,6 @@ export function calculateDiscount(price, discountCode) {
   return price - price * discount;
 }
 
-
 // Lesson: Boundary testing
 export function isPriceInRange(price, min, max) {
   return price >= min && price <= max;
