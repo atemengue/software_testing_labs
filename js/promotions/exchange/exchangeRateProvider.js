@@ -1,8 +1,6 @@
 const exchangeRateProvider = {
 
     callExchangeRateProvider: (currencyCode) => {
-        // Placeholder function
-        // This would call an external service to get the exchange rate values    // This would normally be mocked
         let exchangeRate = 1;
 
         switch (currencyCode) {
@@ -21,5 +19,3 @@ const exchangeRateProvider = {
         return exchangeRate;
     }
 }
-
-export default exchangeRateProvider;
