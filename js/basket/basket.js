@@ -22,6 +22,9 @@ export function calculateTotal(basketItems, discount = null) {
     return total;
 }
 
+
+
+
 export function showAdverts(user) {
     if (user.isPremium) {
         return false
