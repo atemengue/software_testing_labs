@@ -1,6 +1,6 @@
 import { InvalidUsernameError } from '../../../js/error-handling/exceptions';
 import { User, createUserId } from '../users';
-import purchaseHistory from './purchaseHistory/__mocks__/purchaseHistory';
+import purchaseHistory from '../../../../js/users/account/purchaseHistory/__mocks__/purchaseHistory';
 
 export class Purchase {
     constructor(eventName, tickets, cost) {
@@ -22,8 +22,8 @@ export async function isValidUserName(userName) {
 }
 
 export async function createAccount(username) {
-    if (!isValidUserName(username)) {
-        throw InvalidUsernameError("Please enter a valid username")
+    if (!await isValidUserName(username)) {
+        throw new InvalidUsernameError("Please enter a valid username")
     }
     const userExists = await users.username;
     return new Promise((resolve, reject) => {

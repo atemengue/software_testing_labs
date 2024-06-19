@@ -1,3 +1,4 @@
+
 import { vi } from 'vitest';
 const purchaseHistory = vi.mock('../purchaseHistory');
 

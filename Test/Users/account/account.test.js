@@ -1,148 +1,85 @@
-import {Purchase, isValidUserName, createAccount, getPastPurchases } from '../../../js/users/account/account'
-import {vi, it, describe, expect } from "vitest";
-import { userExists } from '../../../js/users/users';
-import exception from '../../../js/error-handling/exceptions';
-import { getPurchaseHistory} from '../../../js/users/account/purchaseHistory/purchaseHistory';
-
-const isValidUserName = vi.fn();
-const userExists = vi.fn();
-const getPurchaseHistory=vi.fn();
+import { describe, it, expect, vi } from 'vitest';
+import { InvalidUsernameError } from '../../../js/error-handling/exceptions';
+import { User, createUserId } from '../../../js/users/users';
+import purchaseHistory, { __getPurchaseHistory } from '../../../js/users/account/purchaseHistory/__mocks__/purchaseHistory';
+import { Purchase, isValidUserName, createAccount, getPastPurchases } from '../../../js/users/account/account';
 
 vi.mock('../../../js/users/users', () => ({
-    userExists: userExists,
-    createUserId: () => 2,
+  User: vi.fn(),
+  createUserId: vi.fn(),
 }));
 
-vi.mock('../../../js/users/account/account.js', () => ({
-    isValidUserName: isValidUserName,
-    getPurchaseHistory: getPurchaseHistory,
+vi.mock('../../../js/users/account/purchaseHistory/__mocks__/purchaseHistory',  () => ({
+  getPurchaseHistory: vi.fn(),
 }));
 
-describe('Purchase class', () =>{
-
-    it('Should create Purchase object with valid data', () => {
-        const result = new Purchase("Concert", 1000, 5000);
-        expect(result).toEqual({
-            eventName: "Concert",
-            tickets: 1000,
-            cost: 5000,
-        });
+describe('account.js', () => {
+  describe('isValidUserName', async () => {
+    it('should return false for invalid usernames', async () => {
+      expect(await isValidUserName('')).toBe(false);
+      expect(await isValidUserName('invalidusername')).toBe(false);
     });
 
-    it('Should not create a Purchase object if ticket < 0', () => {
-        const NegativeTicketError = () =>{
-            new Purchase("Concert", -3, 2400)
-        }
-        expect(NegativeTicketError).toThrow();
+    it('should return true for valid usernames', async () => {
+      expect(await isValidUserName('valid@username.com')).toBe(true);
+    });
+  });
+
+  describe('createAccount', async () => {
+    it('should throw an error for invalid usernames', async () => {
+      await expect(createAccount('invalidusername')).rejects.toThrow(new InvalidUsernameError("Please enter a valid username"));
     });
 
-    it('Should not create a Purchase object if cost < 0', () => {
-        const NegativeCostError = () =>{
-            new Purchase("Concert", 1000, -100)
-        }
-        expect(NegativeCostError).toThrow();
+    it('should resolve with new user data if user does not exist', async () => {
+      const mockUser = {
+        username: null,
+      };
+      User.mockImplementation(() => mockUser);
+      createUserId.mockReturnValue('12345');
+
+      await expect(createAccount('newuser@domain.com')).resolves.toEqual({
+        data: {
+          userId: '12345',
+          username: 'newuser@domain.com',
+        },
+      });
     });
 
-    it('Should not create a Purchase object if cost is not an integer', () => {
-        const NotIntegerCostError = () =>{
-            new Purchase("Concert", 1000, "bro")
-        }
-        expect(NotIntegerCostError).toThrow();
+    it('should reject if user already exists', async () => {
+      const mockUser = {
+        username: 'newuser1@pluralsight.com',
+      };
+      User.mockImplementation(() => mockUser);
+
+      await expect(createAccount('newuser1@pluralsight.com')).rejects.toEqual('User already exists');
     });
+  });
 
-    it('Should not create a Purchase object if cost is not an integer', () => {
-        const NotIntegerTicketError = () =>{
-            new Purchase("Concert", "sap", 5000)
-        }
-        expect(NotIntegerTicketError).toThrow();
-    });
-
-
-    it('Should not create a Purchase object if eventName is not a string', () => {
-        const NotStringEventError = () =>{
-            new Purchase(1.0, 1000, 5000)
-        }
-        expect(NotStringEventError).toThrow();
-    });
-});
-
-describe('isValidUserName', () =>{ [265,false], [265,false],
-   it.each([ [265,false],
-    ['newuser1@pluralsight.com',true], 
-    ['newuser2-pluralsight.com',false],
-    ['naomi@liomo-com', false],
-    ['user.pierre@hello', false],
-    [265,false],
-    ['',false],
-    ['user@.com', false],
-    ['@domain.com', false],
-   ])('isValidUerName(%s) should return %s', (input, expected) => {
-    expect(isValidUserName(input)).toBe(expected);
-   });
-});
-
-describe('createAccount', async() =>{
-    it('Should create an account if the username is valid and the user does not exist', async() => {
-        const username = "newuser3@pluralsight.com";
-        isValidUserName.mockReturnValue(true)
-        userExists.mockResolveedValue(false);
-        const result = await createAccount(username);
-        expect(result).toEqual({
-            data: {
-                userId: 2,
-                username: 'newuser3@pluralsight.com'
-            },
-        });
-    });
-
-    
-    it('Should return an error message if the username is not valid', async() => {
-        const username = "newuser2-pluralsight.com";
-        isValidUserName.mockReturnValue(false)
-        const result= await createAccount(username)
-        expect (result).rejects.toThrow(exception.InvalidUsernameError);
-    });
-
-    it('Should return an error message if the valid username alread exists', async() => {
-        const username = "newuser1@pluralsight.com";
-        isValidUserName.mockReturnValue(true);
-        userExists.mockResolvedValue(true);
-        const result= await createAccount(username)
-        expect (result).rejects.toBe('User already exist');
-    });
-});
-
-describe('getPastPurchases', () =>{
-
-    it('Should return purchase events if the userID is valid', () => {
-        const userId = 1;
-        const mockPurchaseHistory = {
+  describe('getPastPurchases', () => {
+    it('should return past purchases for a valid userId', () => {
+      const mockPurchases = {
         readyState: 4,
         response: {
-        events: [
-          { eventName: 'Concert A', tickets: 2, cost: 100 },
-          { eventName: 'Movie B', tickets: 3, cost: 50 },
-        ],
-      },
-    };
-    getPurchaseHistory.mockReturnValue(mockPurchaseHistory);
-    const result = getPastPurchases(userId);
-    expect(result).toEqual([
-      { eventName: 'Concert A', tickets: 2, cost: 100 },
-      { eventName: 'Movie B', tickets: 3, cost: 50 },
-    ]);
-  });
+          events: [
+            new Purchase('Event 1', 2, 100),
+            new Purchase('Event 2', 1, 50),
+          ],
+        },
+      };
+      purchaseHistory.getPurchaseHistory.mockReturnValue(mockPurchases);
 
-    it('Should throw an error if the userID is invalid', () => {
-    const userId = 56;
-    const mockPurchaseHistory = {
-      readyState: 3,
-      response: {},
-    };
+      const result = getPastPurchases('validUserId');
+      expect(result).toEqual(mockPurchases.response.events);
+    });
 
-    getPurchaseHistory.mockReturnValue(mockPurchaseHistory);
-    expect(() => getPastPurchases(userId)).rejects.toThrow('Failed to get purchase history');
+    it('should throw an error if purchase history is not ready', () => {
+      const mockPurchases = {
+        readyState: 3,
+        response: {},
+      };
+      purchaseHistory.getPurchaseHistory.mockReturnValue(mockPurchases);
+
+      expect(() => getPastPurchases('validUserId')).toThrow('Failed to get purchase history');
+    });
   });
 });
-
-

@@ -1,4 +1,4 @@
-import { Purchase } from '../account';
+import { Purchase } from "../account";
 
 export function getPurchaseHistory(userId) {
     const url = new URL("/account/orders/history ", BASE_URL);
