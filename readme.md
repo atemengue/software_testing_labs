@@ -4,7 +4,7 @@ Ce document decrit les test realise par le groupe 13  de software testing dans l
 # Membre du groupe 
 ***
 LEUGUEM DJOUWA FRANCK RHUNEL 21T2824
-KENFACKNGANKAM ROSTAND HEROLD 21T2279
+KENFACK NGANKAM ROSTAND HEROLD 21T2279
 ***
 
 #
