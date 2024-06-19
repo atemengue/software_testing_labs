@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="PIT Calculator_Mutation_Test" type="PIT" factoryName="PIT Runner" REPORT_DIR="$PROJECT_DIR$/PIT-targetReport/report" SOURCE_DIRS="$PROJECT_DIR$/src/main/test" TARGET_CLASSES="software.testing.Calculator" TARGET_TESTS="software.testing.CalculatorTest" otherParams="--outputFormats XML,HTML">
+    <module name="Calculator_App-PIT_Mutation_test" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
