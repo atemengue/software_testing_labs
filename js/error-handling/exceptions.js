@@ -30,5 +30,8 @@ class UserHasAccountError extends Error {
 
 export {
     InvalidEventNameError,
-    InvalidEventPriceError, InvalidReferralCodeError, InvalidUsernameError, UserHasAccountError
+    InvalidEventPriceError,
+    InvalidReferralCodeError,
+    InvalidUsernameError,
+    UserHasAccountError
 };

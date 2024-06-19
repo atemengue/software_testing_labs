@@ -1,8 +1,8 @@
 import { vi } from 'vitest';
-const purchaseHistory = vi.mock('../purchaseHistory');
+import { Purchase } from '../../../../../js/users/account/account';
 
-function __getPurchaseHistory() {
-    const response = {
+const purchaseHistory = {
+    getPurchaseHistory: vi.fn(() => ({
         readyState: 4,
         onreadystatechange: null,
         response: {
@@ -24,11 +24,16 @@ function __getPurchaseHistory() {
                 }
             ],
         }
-    }
-    return response;
-}
-
-purchaseHistory.getPurchaseHistory = __getPurchaseHistory;
+    })),
+    parsePurchaseResponse: vi.fn((purchaseData) => {
+        const purchases = [];
+        for (const purchase of purchaseData) {
+            purchases.push(
+                new Purchase(purchase.name, purchase.tickets, purchase.price)
+            );
+        }
+        return purchases;
+    })
+};
 
 export default purchaseHistory;
-
