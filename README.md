@@ -1,4 +1,4 @@
-# README
+# Restaurant Mobile Application
 
 Welcome to the **JavaScript Unit Testing with Vitest** project! This README provides detailed instructions on how to set up, run, and contribute to the project. It also includes information on the project's structure and the technologies used. The project is designed to test the mobile application of a local restaurant.
 
