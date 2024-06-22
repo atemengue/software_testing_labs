@@ -1,5 +1,5 @@
 import { vi } from 'vitest';
-const purchaseHistory = vi.mock('../purchaseHistory');
+//const purchaseHistory = vi.mock('../purchaseHistory');
 
 function __getPurchaseHistory() {
     const response = {
@@ -28,7 +28,7 @@ function __getPurchaseHistory() {
     return response;
 }
 
-purchaseHistory.getPurchaseHistory = __getPurchaseHistory;
+//purchaseHistory.getPurchaseHistory = __getPurchaseHistory;
 
-export default purchaseHistory;
+//export default purchaseHistory;
 

@@ -1,4 +1,6 @@
-import exception from '../../error-handling/exceptions';
+import {InvalidUsernameError} from '../../error-handling/exceptions';
+import {userExists, createUserId} from '../users';
+import {getPurchaseHistory} from './purchaseHistory/purchaseHistory'
 
 export class Purchase {
     constructor(eventName, tickets, cost) {
@@ -22,12 +24,12 @@ export async function createAccount(username) {
     if (!isValidUserName(username)) {
         throw exception.InvalidUsernameError("Please enter a valid username")
     }
-    const userExists = await users.userExists(username);
+    const _userExists = await userExists(username);
     return new Promise((resolve, reject) => {
-        if (!userExists) {
+        if (_userExists) {
             resolve({
                 data: {
-                    "userId": users.createUserId(),
+                    "userId": createUserId(),
                     "username": username,
                 }
             })
@@ -39,7 +41,7 @@ export async function createAccount(username) {
 }
 
 export function getPastPurchases(userId) {
-    const purchases = purchaseHistory.getPurchaseHistory(userId);
+    const purchases = getPurchaseHistory(userId);
     if (purchases.readyState === 4) {
         return purchases.response.events;
     }
