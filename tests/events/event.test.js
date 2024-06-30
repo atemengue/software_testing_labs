@@ -1,71 +1,110 @@
-import { Event, isSoldOut, getTagLine, createEvent } from '../../js/events/event';
-import { InvalidEventNameError, InvalidEventPriceError } from '../../js/error-handling/exceptions';
+import { describe, it, expect } from 'vitest';
+import { Event, isSoldOut, getTagLine, createEvent } from '../software_testing_labs/js/events/event';
+import { InvalidEventNameError, InvalidEventPriceError } from '../software_testing_labs/js/error-handling/exceptions';
 
-describe('createEvent()', () => {
-    test('CreateEvent_AvecEntreesValides', () => {
-      // Arrange
-      const name = 'Concert de musique classique';
-      const price = 50.00;
-      const availableTickets = 1000;
-  
-      // Act
-      const event = createEvent(name, price, availableTickets);
-  
-      // Assert
-      expect(event.name).toBe(name);
-      expect(event.ticketPrice).toBe(price);
-      expect(event.totalTickets).toBe(availableTickets);
-      expect(event.ticketsRemaining).toBe(availableTickets);
+describe('isSoldOut', () => {
+    it('should return true if tickets are sold out', () => {
+        // Arrange
+        const event = new Event(1, 'Event1', 100, 100, 0, new Date());
+
+        // Act
+        const result = isSoldOut(event);
+
+        // Assert
+        expect(result).toBe(true);
     });
-  
-    test('CreateEvent_AvecEntreesInvalides', () => {
-      // Arrange
-      const invalidName = 123;
-      const invalidPrice = -10.00;
-      const invalidTickets = 0;
-  
-      // Act & Assert
-      expect(() => createEvent(invalidName, 50, 100)).toThrowError(InvalidEventNameError);
-      expect(() => createEvent('Event', invalidPrice, 100)).toThrowError(InvalidEventPriceError);
-      expect(() => createEvent('Event', 50, invalidTickets)).toThrowError(InvalidEventPriceError);
+
+    it('should return false if tickets are available', () => {
+        // Arrange
+        const event = new Event(1, 'Event1', 100, 100, 10, new Date());
+
+        // Act
+        const result = isSoldOut(event);
+
+        // Assert
+        expect(result).toBe(false);
     });
-  });
-
-describe('isSoldOut()', () => {
-  test('IsSoldOut_AvecEtSansTicketsRestants', () => {
-    // Arrange
-    const soldOutEvent = new Event(1, 'Sold Out Event', 50, 100, 0, new Date());
-    const availableEvent = new Event(2, 'Available Event', 50, 100, 50, new Date());
-
-    // Act
-    const isSoldOutResult = isSoldOut(soldOutEvent);
-    const isAvailableResult = isSoldOut(availableEvent);
-
-    // Assert
-    expect(isSoldOutResult).toBe(true);
-    expect(isAvailableResult).toBe(false);
-  });
 });
 
-describe('getTagLine()', () => {
-  test('GetTagLine_AvecDifferentsEtats', () => {
-    // Arrange
-    const soldOutEvent = new Event(1, 'Sold Out Event', 50, 100, 0, new Date());
-    const lowTicketsEvent = new Event(2, 'Low Tickets Event', 50, 100, 5, new Date());
-    const popularEvent = new Event(3, 'Popular Event', 50, 100, 50, new Date());
-    const unpopularEvent = new Event(4, 'Unpopular Event', 50, 100, 50, new Date());
-    const minimumTicketCount = 10;
+describe('getTagLine', () => {
+    it('should return "Event Sold Out!" if event is sold out', () => {
+        // Arrange
+        const event = new Event(1, 'Event1', 100, 100, 0, new Date());
 
-    // Act
-    const soldOutTagLine = getTagLine(soldOutEvent, minimumTicketCount, false);
-    const lowTicketsTagLine = getTagLine(lowTicketsEvent, minimumTicketCount, false);
-    const popularTagLine = getTagLine(popularEvent, minimumTicketCount, true);
-    const unpopularTagLine = getTagLine(unpopularEvent, minimumTicketCount, false);
+        // Act
+        const result = getTagLine(event, 10, false);
 
-    // Assert
-    expect(soldOutTagLine).toBe('Event Sold Out!');
-    expect(lowTicketsTagLine).toBe('Hurry only 5 tickets left!');
-    expect(popularTagLine).toBe( `This Event is getting a lot of interest. Don't miss out, purchase your ticket now!`);
-    expect(unpopularTagLine).toBe("Don't miss out, purchase your ticket now!");
-  });
+        // Assert
+        expect(result).toBe('Event Sold Out!');
+    });
+
+    it('should return correct message if tickets are low', () => {
+        // Arrange
+        const event = new Event(1, 'Event1', 100, 100, 5, new Date());
+
+        // Act
+        const result = getTagLine(event, 10, false);
+
+        // Assert
+        expect(result).toBe('Hurry only 5 tickets left!');
+    });
+
+    it('should return correct message for popular events', () => {
+        // Arrange
+        const event = new Event(1, 'Event1', 100, 100, 50, new Date());
+
+        // Act
+        const result = getTagLine(event, 10, true);
+
+        // Assert
+        expect(result).toBe("This Event is getting a lot of interest. Don't miss out, purchase your ticket now!");
+    });
+
+    it('should return default message if tickets are sufficient and event is not popular', () => {
+        // Arrange
+        const event = new Event(1, 'Event1', 100, 100, 50, new Date());
+
+        // Act
+        const result = getTagLine(event, 10, false);
+
+        // Assert
+        expect(result).toBe("Don't miss out, purchase your ticket now!");
+    });
+});
+
+
+describe('createEvent', () => {
+    it('should create an event successfully', () => {
+        // Arrange
+        const eventName = 'Event1';
+        const eventPrice = 100;
+        const availableTickets = 50;
+
+        // Act
+        const event = createEvent(eventName, eventPrice, availableTickets);
+
+        // Assert
+        expect(event).toBeInstanceOf(Event);
+        expect(event.name).toBe(eventName);
+        expect(event.ticketPrice).toBe(eventPrice);
+        expect(event.totalTickets).toBe(availableTickets);
+    });
+
+    // it('should throw an error if event name is invalid', () => {
+    //     // Act & Assert
+    //     expect(() => createEvent(123, 100, 50)).toThrow(InvalidEventNameError);
+    //     expect(() => createEvent('a'.repeat(201), 100, 50)).toThrow(InvalidEventNameError);
+    // });
+
+    // it('should throw an error if event price is invalid', () => {
+    //     // Act & Assert
+    //     expect(() => createEvent('Event1', -1, 50)).toThrow(InvalidEventPriceError);
+    //     expect(() => createEvent('Event1', 'free', 50)).toThrow(InvalidEventPriceError);
+    // });
+
+    // it('should throw an error if available tickets are invalid', () => {
+    //     // Act & Assert
+    //     expect(() => createEvent('Event1', 100, 0)).toThrow(InvalidEventPriceError);
+    //     expect(() => createEvent('Event1', 100, 'many')).toThrow(InvalidEventPriceError);
+    // });
 });

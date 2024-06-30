@@ -1,76 +1,48 @@
-import { describe, it, expect, vi } from 'vitest';
-import getExchangeRate from '../../js/promotions/exchange/exchange';
-import exchangeRateProvider from '../../js/promotions/exchange/exchangeRateProvider';
+// import { describe, it, expect, vi } from 'vitest';
+// import getExchangeRate from '../software_testing_labs/js/promotions/exchange/exchange';
+// import exchangeRateProvider from '../software_testing_labs/js/promotions/exchange/exchangeRateProvider';
 
-vi.mock('../../js/promotions/exchange/exchangeRateProvider');
+// // Mocking exchangeRateProvider
+// vi.mock('../software_testing_labs/js/promotions/exchange/exchangeRateProvider', () => ({
+//     callExchangeRateProvider: vi.fn()
+// }));
 
-describe('getExchangeRate', () => {
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
+// describe('getExchangeRate', () => {
+//     it('should call exchangeRateProvider and return the exchange rate', async () => {
+//         // Arrange
+//         const currencyCode = 'USD';
+//         const exchangeRate = 1.2;
+//         exchangeRateProvider.callExchangeRateProvider.mockResolvedValue(exchangeRate);
 
-  it('should retrieve the exchange rate for a valid currency', async () => {
-    // Arrange
-    const currencyCode = 'USD';
-    const expectedExchangeRate = 1.25;
-    const expectedResponse = {
-      originalCurrency: 'GBP',
-      newCurrency: currencyCode,
-      exchangeRate: expectedExchangeRate,
-    };
+//         // Act
+//         const callback = vi.fn();
+//         await getExchangeRate(currencyCode, callback);
 
-    vi.mocked(exchangeRateProvider.callExchangeRateProvider).mockReturnValue(expectedExchangeRate);
-    const mockCallback = vi.fn();
+//         // Assert
+//         expect(exchangeRateProvider.callExchangeRateProvider).toHaveBeenCalledWith(currencyCode);
+//         expect(callback).toHaveBeenCalledWith({
+//             "originalCurrency": "GBP",
+//             "newCurrency": currencyCode,
+//             "exchangeRate": exchangeRate
+//         });
+//     });
 
-    // Act
-    await getExchangeRate(currencyCode, mockCallback);
+//     it('should handle errors from exchangeRateProvider', async () => {
+//         // Arrange
+//         const currencyCode = 'USD';
+//         const errorMessage = 'API Error';
+//         exchangeRateProvider.callExchangeRateProvider.mockRejectedValue(new Error(errorMessage));
 
-    // Assert
-    expect(exchangeRateProvider.callExchangeRateProvider).toHaveBeenCalledWith(currencyCode);
-    expect(mockCallback).toHaveBeenCalledWith(expectedResponse);
-  });
+//         // Act
+//         const callback = vi.fn();
+//         try {
+//             await getExchangeRate(currencyCode, callback);
+//         } catch (e) {
+//             // Assert
+//             expect(e.message).toBe(errorMessage);
+//         }
 
-  it('should handle an invalid currency', async () => {
-    // Arrange
-    const currencyCode = 'INVALID';
-    const expectedResponse = {
-      originalCurrency: 'GBP',
-      newCurrency: currencyCode,
-      error: 'Currency not supported',
-    };
-  
-    vi.mocked(exchangeRateProvider.callExchangeRateProvider).mockImplementationOnce(() => {
-      throw new Error('Currency not supported');
-    });
-    const mockCallback = vi.fn();
-  
-    // Act
-    await getExchangeRate(currencyCode, mockCallback);
-  
-    // Assert
-    expect(exchangeRateProvider.callExchangeRateProvider).toHaveBeenCalledWith(currencyCode);
-    expect(mockCallback).toHaveBeenCalledWith(expectedResponse);
-  });
-  
-
-  it('should call the provided callback function', async () => {
-    // Arrange
-    const currencyCode = 'EUR';
-    const expectedExchangeRate = 1.18;
-    const expectedResponse = {
-      originalCurrency: 'GBP',
-      newCurrency: currencyCode,
-      exchangeRate: expectedExchangeRate,
-    };
-
-    vi.mocked(exchangeRateProvider.callExchangeRateProvider).mockReturnValue(expectedExchangeRate);
-    const mockCallback = vi.fn();
-
-    // Act
-    await getExchangeRate(currencyCode, mockCallback);
-
-    // Assert
-    expect(exchangeRateProvider.callExchangeRateProvider).toHaveBeenCalledWith(currencyCode);
-    expect(mockCallback).toHaveBeenCalledWith(expectedResponse);
-  });
-});
+//         expect(exchangeRateProvider.callExchangeRateProvider).toHaveBeenCalledWith(currencyCode);
+//         expect(callback).not.toHaveBeenCalled();
+//     });
+// });

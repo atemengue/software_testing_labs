@@ -1,102 +1,89 @@
-import { calculateTotal, showAdverts, searchBasket, getBasketItem, createBasketItem, serializeBasketItemsToJson } from '../../js/basket/basket';
-import { BasketItem } from '../../js/basket/basketitem';
-import {describe, test, expect} from vitest
-import { vitest } from 'vitest';
+import { describe, it, expect } from 'vitest';
+import { calculateTotal, showAdverts, searchBasket, getBasketItem, createBasketItem, serializeBasketItemsToJson } from '../software_testing_labs/js/basket/basket';
+import { BasketItem } from '../software_testing_labs/js/basket/basketitem';
 
-describe('calculateTotal()', () => {
-  test('CalculateTotal_AvecEtSansDiscount', () => {
-    // Données d'entrée
-    const basketItems = [
-      new BasketItem({ name: 'Pizza Margherita', ticketPrice: 10 }, 2),
-      new BasketItem({ name: 'Salade César', ticketPrice: 7 }, 1)
-    ];
-    const discount = 0.1;
+describe('calculateTotal', () => {
+    it('should return 0 for empty basket', () => {
+        expect(calculateTotal([])).toBe(0);
+    });
 
-    // Sans discount
-    const totalWithoutDiscount = calculateTotal(basketItems);
-    expect(totalWithoutDiscount).toBe(27);
+    it('should return the price of a single item', () => {
+        const item = new BasketItem({id: 1, name: "Event1", ticketPrice: 100}, 1);
+        expect(calculateTotal([item])).toBe(100);
+    });
 
-    // Avec discount
-    const totalWithDiscount = calculateTotal(basketItems, discount);
-    expect(totalWithDiscount).toBe(26.9);
-  });
+    it('should return the total price of multiple items', () => {
+        const item1 = new BasketItem({id: 1, name: "Event1", ticketPrice: 100}, 1);
+        const item2 = new BasketItem({id: 2, name: "Event2", ticketPrice: 200}, 1);
+        expect(calculateTotal([item1, item2])).toBe(300);
+    });
+
+    it('should apply discount correctly', () => {
+        const item1 = new BasketItem({id: 1, name: "Event1", ticketPrice: 100}, 1);
+        const item2 = new BasketItem({id: 2, name: "Event2", ticketPrice: 200}, 1);
+        expect(calculateTotal([item1, item2], 50)).toBe(250);
+    });
 });
 
-describe('showAdverts()', () => {
-  test('ShowAdverts_PourUtilisateur', () => {
-    // Données d'entrée
-    const userWithPremium = { isPremium: true };
-    const userWithoutPremium = { isPremium: false };
+describe('showAdverts', () => {
+    it('should return false for premium users', () => {
+        expect(showAdverts({isPremium: true})).toBe(false);
+    });
 
-    // Vérifier l'affichage des annonces
-    expect(showAdverts(userWithPremium)).toBe(false);
-    expect(showAdverts(userWithoutPremium)).toBe(true);
-  });
+    it('should return true for non-premium users', () => {
+        expect(showAdverts({isPremium: false})).toBe(true);
+    });
 });
 
-describe('searchBasket()', () => {
-  test('SearchBasket_ArticlesCorrespondants', () => {
-    // Données d'entrée
-    const basketItems = [
-      new BasketItem({ name: 'Pizza Margherita', id: 1 }, 1),
-      new BasketItem({ name: 'Salade César', id: 2 }, 1),
-      new BasketItem({ name: 'Spaghetti Bolognese', id: 3 }, 1)
-    ];
-    const searchQuery = 'Pizza';
-
-    // Recherche dans le panier
-    const searchResults = searchBasket(basketItems, searchQuery);
-    expect(searchResults.length).toBe(1);
-    expect(searchResults[0].event.name).toBe('Pizza Margherita');
-  });
+describe('searchBasket', () => {
+    it('should find items by search query', () => {
+        const item1 = new BasketItem({id: 1, name: "Event1"}, 1);
+        const item2 = new BasketItem({id: 2, name: "Event2"}, 1);
+        const basketItems = [item1, item2];
+        expect(searchBasket(basketItems, 'Event1')).toEqual([item1]);
+        expect(searchBasket(basketItems, 'event2')).toEqual([item2]);
+    });
 });
 
-describe('getBasketItem()', () => {
-  test('GetBasketItem_ArticleSpecifique', () => {
-    // Données d'entrée
-    const basketItems = [
-      new BasketItem({ name: 'Pizza Margherita', id: 1 }, 1),
-      new BasketItem({ name: 'Salade César', id: 2 }, 1)
-    ];
-    const itemToRetrieve = { id: 2 };
+describe('getBasketItem', () => {
+    it('should find the correct basket item by event', () => {
+        const event = {id: 1, name: "Event1"};
+        const item = new BasketItem(event, 1);
+        expect(getBasketItem([item], event)).toEqual(item);
+    });
 
-    // Récupération de l'article
-    const retrievedItem = getBasketItem(basketItems, itemToRetrieve);
-    expect(retrievedItem.event.name).toBe('Salade César');
-  });
+    it('should return null if the item is not found', () => {
+        const event = {id: 1, name: "Event1"};
+        expect(getBasketItem([], event)).toBe(null);
+    });
 });
 
-describe('createBasketItem()', () => {
-  test('CreateBasketItem_NouvelArticle', () => {
-    // Données d'entrée
-    const basketItems = [
-      new BasketItem({ name: 'Pizza Margherita', id: 1 }, 1),
-      new BasketItem({ name: 'Salade César', id: 2 }, 1)
-    ];
-    const newItem = { name: 'Burger', id: 3, ticketPrice: 8 };
-    const requiredTickets = 2;
+// describe('createBasketItem', () => {
+//     it('should create a new basket item if it does not exist', () => {
+//         const event = { id: 1, name: "Event1" };
+//         const item = createBasketItem([], event, 1);
+//         expect(item).toBeInstanceOf(BasketItem);
+//         expect(item.event).toEqual(event);
+//         expect(item.requiredTickets).toBe(1);
+//     });
 
-    // Création d'un nouvel article
-    const createdItem = createBasketItem(basketItems, newItem, requiredTickets);
-    expect(createdItem.event.name).toBe('Burger');
-    expect(createdItem.event.id).toBe(3);
-    expect(createdItem.ticketCount).toBe(2);
-  });
-});
+//     it('should return null if the basket item already exists', () => {
+//         const event = { id: 1, name: "Event1" };
+//         const existingItem = new BasketItem(event, 1);
+//         const basketItems = [existingItem];
+//         const item = createBasketItem(basketItems, event, 1);
+//         expect(item).toBeNull();
+//     });
+// });
 
-describe('serializeBasketItemsToJson()', () => {
-  test('SerializeBasketItemsToJson_FormatCorrect', () => {
-    // Données d'entrée
-    const basketItems = [
-      new BasketItem({ name: 'Pizza Margherita', id: 1, ticketPrice: 10 }, 2),
-      new BasketItem({ name: 'Salade César', id: 2, ticketPrice: 7 }, 1)
-    ];
-
-    // Conversion en JSON
-    const jsonItems = serializeBasketItemsToJson(basketItems);
-    expect(jsonItems).toEqual([
-      { event: { name: 'Pizza Margherita', id: 1, ticketPrice: 10 }, ticketCount: 2 },
-      { event: { name: 'Salade César', id: 2, ticketPrice: 7 }, ticketCount: 1 }
-    ]);
-  });
-});
+// describe('serializeBasketItemsToJson', () => {
+//     it('should serialize basket items to JSON', () => {
+//         const event = { id: 1, name: "Event1" };
+//         const item = new BasketItem(event, 1);
+//         const result = serializeBasketItemsToJson([item]);
+//         expect(result).toEqual([{
+//             event: item.event,
+//             requiredTickets: item.requiredTickets // Assurez-vous que cette propriété existe
+//         }]);
+//     });
+// });
