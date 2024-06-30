@@ -1,84 +1,75 @@
-import { today, next7Days, next30Days } from '../../js/events/filters';
+import { describe, it, expect } from 'vitest';
+import { today , next30Days, next7Days} from '../software_testing_labs/js/events/filters';
 
-describe('today()', () => {
-  test('today_EventEnJour', () => {
-    // Arrange
-    const eventDate = new Date();
-    const event = { date: eventDate };
+describe('today', () => {
+    it('should return true for events happening today', () => {
+        // Arrange
+        const event = { date: new Date() };
 
-    // Act
-    const isToday = today(event);
+        // Act
+        const result = today(event);
 
-    // Assert
-    expect(isToday).toBe(true);
-  });
+        // Assert
+        expect(result).toBe(true);
+    });
 
-  test('today_EventPasEnJour', () => {
-    // Arrange
-    const eventDate = new Date();
-    eventDate.setDate(eventDate.getDate() + 1);
-    const event = { date: eventDate };
+    it('should return false for events not happening today', () => {
+        // Arrange
+        const event = { date: new Date(Date.now() + 24 * 60 * 60 * 1000) };
 
-    // Act
-    const isToday = today(event);
+        // Act
+        const result = today(event);
 
-    // Assert
-    expect(isToday).toBe(false);
-  });
+        // Assert
+        expect(result).toBe(false);
+    });
 });
 
-describe('next7Days()', () => {
-  test('next7Days_EventDansLesProchains7Jours', () => {
-    // Arrange
-    const eventDate = new Date();
-    eventDate.setDate(eventDate.getDate() + 3);
-    const event = { date: eventDate };
+describe('next7Days', () => {
+    it('should return true for events happening in the next 7 days', () => {
+        // Arrange
+        const event = { date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000) };
 
-    // Act
-    const isWithin7Days = next7Days(event);
+        // Act
+        const result = next7Days(event);
 
-    // Assert
-    expect(isWithin7Days).toBe(true);
-  });
+        // Assert
+        expect(result).toBe(true);
+    });
 
-  test('next7Days_EventPasDansLesProchains7Jours', () => {
-    // Arrange
-    const eventDate = new Date();
-    eventDate.setDate(eventDate.getDate() + 8);
-    const event = { date: eventDate };
+    it('should return false for events happening after the next 7 days', () => {
+        // Arrange
+        const event = { date: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000) };
 
-    // Act
-    const isWithin7Days = next7Days(event);
+        // Act
+        const result = next7Days(event);
 
-    // Assert
-    expect(isWithin7Days).toBe(false);
-  });
+        // Assert
+        expect(result).toBe(false);
+    });
 });
 
-describe('next30Days()', () => {
-  test('next30Days_EventDansLesProchains30Jours', () => {
-    // Arrange
-    const eventDate = new Date();
-    eventDate.setDate(eventDate.getDate() + 15);
-    const event = { date: eventDate };
 
-    // Act
-    const isWithin30Days = next30Days(event);
+describe('next30Days', () => {
+    it('should return true for events happening in the next 30 days', () => {
+        // Arrange
+        const event = { date: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000) };
 
-    // Assert
-    expect(isWithin30Days).toBe(true);
-  });
+        // Act
+        const result = next30Days(event);
 
-  test('next30Days_EventPasDansLesProchains30Jours', () => {
-    // Arrange
-    const eventDate = new Date();
-    eventDate.setDate(eventDate.getDate() + 31);
-    const event = { date: eventDate };
+        // Assert
+        expect(result).toBe(true);
+    });
 
-    // Act
-    const isWithin30Days = next30Days(event);
+    it('should return false for events happening after the next 30 days', () => {
+        // Arrange
+        const event = { date: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000) };
 
-    // Assert
-    expect(isWithin30Days).toBe(false);
-  });
+        // Act
+        const result = next30Days(event);
+
+        // Assert
+        expect(result).toBe(false);
+    });
 });
